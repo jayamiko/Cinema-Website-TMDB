@@ -1,7 +1,7 @@
 import React from "react";
 
 function Favorite() {
-  return <div>Favorite</div>;
+  return <div className="border-4">Favorite</div>;
 }
 
 export default Favorite;
