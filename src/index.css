@@ -12,3 +12,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.navbar-list {
+  @apply flex items-center text-white font-bold hover:text-orange-500 xl:text-xl;
+}
