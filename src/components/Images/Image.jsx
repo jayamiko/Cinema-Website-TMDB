@@ -7,6 +7,7 @@ function Image(props) {
       width={props.width}
       height={props.height}
       alt={props.alt}
+      className={props.className}
     />
   );
 }

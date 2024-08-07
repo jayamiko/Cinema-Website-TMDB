@@ -1,30 +1,42 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "../Images/Image";
 import WatchlistIcon from "../Icons/WatchlistIcon";
 import HeartIcon from "../Icons/HeartIcon";
 import { IMAGE_URL } from "../../api";
 import Button from "../Buttons/Button";
 import getLocalStorageValue from "../../helpers/getLocalStorageValue";
+import { Link } from "react-router-dom";
 
 function MovieCard({ item, showWatchlist, showFavorite }) {
-  const { id } = item;
+  const movieId = item.id;
 
-  const watchlist = JSON.parse(getLocalStorageValue("watchlist"));
-  const favorites = JSON.parse(getLocalStorageValue("favorites"));
+  const [watchlist, setWatchlist] = useState([]);
+  const [favorites, setFavorites] = useState([]);
+  const [isWatchlist, setIsWatchlist] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
 
-  function isItemInList(data) {
-    return data?.map((list) => list.id).includes(id);
-  }
+  useEffect(() => {
+    const watchlistData = JSON.parse(getLocalStorageValue("watchlist")) || [];
+    const favoritesData = JSON.parse(getLocalStorageValue("favorites")) || [];
+    setWatchlist(watchlistData);
+    setFavorites(favoritesData);
+  }, []);
 
-  const [isWatchlist, setIsWatchlist] = useState(isItemInList(watchlist));
-  const [isFavorite, setIsFavorite] = useState(isItemInList(favorites));
+  useEffect(() => {
+    function isItemInList(data) {
+      return data?.map((list) => list.id).includes(movieId);
+    }
+
+    setIsWatchlist(isItemInList(watchlist));
+    setIsFavorite(isItemInList(favorites));
+  }, [movieId, watchlist, favorites]);
 
   function saveToLocalStorage(key, value) {
     let data = getLocalStorageValue(key);
 
     data = data ? JSON.parse(data) : [];
 
-    const itemIndex = data.findIndex((list) => list.id === id);
+    const itemIndex = data.findIndex((list) => list.id === movieId);
 
     if (itemIndex !== -1) {
       data.splice(itemIndex, 1);
@@ -37,8 +49,8 @@ function MovieCard({ item, showWatchlist, showFavorite }) {
 
   return (
     <div className="inline-block w-fit max-w-48 bg-slate-900 rounded-xl overflow-hidden m-2">
-      <div className="relative">
-        <div className="absolute h-full w-full flex justify-end items-end p-4 space-x-2">
+      <div className="relative flex items-end justify-end">
+        <div className="absolute h-fit w-fit space-x-2 m-3">
           {showWatchlist && (
             <Button onClick={() => saveToLocalStorage("watchlist", item)}>
               <WatchlistIcon
@@ -54,20 +66,26 @@ function MovieCard({ item, showWatchlist, showFavorite }) {
             </Button>
           )}
         </div>
-        <Image
-          src={IMAGE_URL + item?.poster_path}
-          width={200}
-          height={200}
-          alt={item?.title}
-        />
+        <Link to={`/cinema/${movieId}`}>
+          <Image
+            src={IMAGE_URL + item?.poster_path}
+            width={200}
+            height={200}
+            alt={item?.title}
+          />
+        </Link>
       </div>
-      <div className="p-3">
-        <h4 className="font-extrabold line-clamp-1 text-wrap">{item?.title}</h4>
+      <Link to={`/cinema/${movieId}`}>
+        <div className="p-3">
+          <h4 className="font-extrabold line-clamp-1 text-wrap hover:text-orange-500 hover:underline">
+            {item?.title}
+          </h4>
 
-        <span className="text-sm font-extralight">
-          {item?.release_date.substring(0, 4)}
-        </span>
-      </div>
+          <span className="text-sm font-extralight">
+            {item?.release_date.substring(0, 4)}
+          </span>
+        </div>
+      </Link>
     </div>
   );
 }

@@ -12,7 +12,7 @@ function App() {
       <Layout>
         <Routes>
           <Route exact path={Paths.HOME} element={<Home />} />
-          <Route path="/cinema/:name" element={<CinemaDetail />} />
+          <Route path="/cinema/:id" element={<CinemaDetail />} />
           <Route path={Paths.WATCHLIST} element={<Watchlist />} />
           <Route path={Paths.FAVORITE} element={<Favorite />} />
         </Routes>
