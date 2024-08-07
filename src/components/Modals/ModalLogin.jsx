@@ -1,5 +1,5 @@
 import React from "react";
-import api, { API_KEY } from "../../api";
+import api from "../../api";
 import Image from "../Images/Image";
 import Button from "../Buttons/Button";
 import getRequestToken from "../../api/requestToken/requestToken";

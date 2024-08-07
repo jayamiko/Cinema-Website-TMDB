@@ -32,7 +32,7 @@ function Navbar() {
   };
 
   return (
-    <nav className="bg-primary w-full h-28 flex items-center sticky top-0">
+    <nav className="bg-primary w-full h-28 flex items-center sticky top-0 z-50">
       <div className="container mx-auto flex justify-between items-center">
         <h2 className="uppercase xl:text-5xl tracking-widest">
           <Link to={Paths.HOME}>Cinema</Link>
