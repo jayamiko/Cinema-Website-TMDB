@@ -15,19 +15,22 @@ import {
   saveToLocalStorage,
 } from "../utils/localStorage.";
 import isItemInList from "../utils/isItemInList";
+import ModalRating from "../components/Modals/ModalRating";
 
 function MovieDetail() {
   const { id } = useParams();
 
   const movieId = parseInt(id);
 
-  const [data, setData] = useState({});
+  const [movieDetail, setMovieDetail] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
+  const { sessionId } = useLocalStorage();
+  const { watchlist, favorites } = useMovieData();
   const [recomendations, setRecomendations] = useState([]);
   const [recomendationisLoading, setRecomendationIsLoading] = useState(true);
 
-  const [watchlist, setWatchlist] = useState([]);
+  const [showModal, setShowModal] = useState(false);
   const [isWatchlist, setIsWatchlist] = useState(false);
 
   const [favorites, setFavorites] = useState([]);
@@ -143,6 +146,18 @@ function MovieDetail() {
                 />
               );
             })}
+              <Button
+                styles="bg-yellow-500 py-1 px-8 rounded-md font-bold text-sm"
+                onClick={() => setShowModal(true)}
+              >
+                Review
+              </Button>
+              <ModalRating
+                sessionId={sessionId}
+                movieId={movieId}
+                showModal={showModal}
+                setShowModal={setShowModal}
+              />
           </div>
         </section>
       )}
