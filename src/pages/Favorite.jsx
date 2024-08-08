@@ -3,16 +3,17 @@ import ModalLogin from "../components/Modals/ModalLogin";
 import Typography from "../components/Typography/Typography";
 import MovieCard from "../components/Cards/MovieCard";
 import { AuthContext } from "../context/AuthContextProvider";
-import { getLocalStorageValue } from "../utils/localStorage.";
+import useMovieData from "../hooks/useMovieData";
+import { useLocalStorage } from "../utils/localStorage.";
+import EmptyMovie from "../components/Notifications/EmptyMovie";
 
 function Favorite() {
   const [showModal, setShowModal] = useState(false);
 
-  const favorites = JSON.parse(getLocalStorageValue("favorites"));
+  const { sessionId } = useLocalStorage();
+  const { favorites } = useMovieData();
 
-  const { stateAuth, dispatch } = useContext(AuthContext);
-
-  const sessionId = getLocalStorageValue("session_id");
+  const { dispatch } = useContext(AuthContext);
 
   useEffect(() => {
     if (!sessionId) {
@@ -30,6 +31,9 @@ function Favorite() {
               return <MovieCard key={index} item={movie} showFavorite={true} />;
             })}
           </div>
+
+          {/* If empty data */}
+          <EmptyMovie data={favorites} message="Favorite Movie is empty!" />
         </div>
       )}
       <ModalLogin

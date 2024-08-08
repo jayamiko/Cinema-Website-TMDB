@@ -4,13 +4,15 @@ import Typography from "../components/Typography/Typography";
 import MovieCard from "../components/Cards/MovieCard";
 import { AuthContext } from "../context/AuthContextProvider";
 import { getLocalStorageValue } from "../utils/localStorage.";
+import useMovieData from "../hooks/useMovieData";
+import EmptyMovie from "../components/Notifications/EmptyMovie";
 
 function Watchlist() {
   const [showModal, setShowModal] = useState(false);
 
-  const watchlist = JSON.parse(getLocalStorageValue("watchlist"));
+  const { watchlist } = useMovieData();
 
-  const { stateAuth, dispatch } = useContext(AuthContext);
+  const { dispatch } = useContext(AuthContext);
 
   const sessionId = getLocalStorageValue("session_id");
 
@@ -32,6 +34,9 @@ function Watchlist() {
               );
             })}
           </div>
+
+          {/* If empty data */}
+          <EmptyMovie data={watchlist} message="Watchlist Movie is empty!" />
         </div>
       )}
       <ModalLogin

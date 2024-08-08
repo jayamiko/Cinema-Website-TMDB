@@ -11,10 +11,10 @@ function App() {
     <Router>
       <Layout>
         <Routes>
-          <Route exact path={Paths.HOME} element={<Home />} />
+          <Route exact path={Path.HOME} element={<Home />} />
           <Route path="/cinema/:id" element={<MovieDetail />} />
-          <Route path={Paths.WATCHLIST} element={<Watchlist />} />
-          <Route path={Paths.FAVORITE} element={<Favorite />} />
+          <Route path={Path.WATCHLIST} element={<Watchlist />} />
+          <Route path={Path.FAVORITE} element={<Favorite />} />
         </Routes>
       </Layout>
     </Router>

@@ -5,11 +5,10 @@ import HeartIcon from "../Icons/HeartIcon";
 import { IMAGE_URL } from "../../api";
 import Button from "../Buttons/Button";
 import { Link } from "react-router-dom";
-import {
-  getLocalStorageValue,
-  saveToLocalStorage,
-} from "../../utils/localStorage.";
+import { saveToLocalStorage } from "../../utils/localStorage.";
 import isItemInList from "../../utils/isItemInList";
+import useMovieData from "../../hooks/useMovieData";
+import Skeleton from "../Skeleton/Skeleton";
 
 function MovieCard({
   item,
@@ -20,17 +19,10 @@ function MovieCard({
 }) {
   const movieId = item.id;
 
-  const [watchlist, setWatchlist] = useState([]);
-  const [favorites, setFavorites] = useState([]);
+  const { watchlist, favorites } = useMovieData();
+
   const [isWatchlist, setIsWatchlist] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
-
-  useEffect(() => {
-    const watchlistData = JSON.parse(getLocalStorageValue("watchlist")) || [];
-    const favoritesData = JSON.parse(getLocalStorageValue("favorites")) || [];
-    setWatchlist(watchlistData);
-    setFavorites(favoritesData);
-  }, []);
 
   useEffect(() => {
     setIsWatchlist(isItemInList(watchlist, movieId));
