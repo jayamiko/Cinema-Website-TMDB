@@ -14,6 +14,7 @@ import { saveToLocalStorage, useLocalStorage } from "../utils/localStorage.";
 import isItemInList from "../utils/isItemInList";
 import useMovieData from "../hooks/useMovieData";
 import ModalRating from "../components/Modals/ModalRating";
+import ErrorNotification from "../components/Notifications/ErrorNotification";
 
 function MovieDetail() {
   const { id } = useParams();
@@ -155,10 +156,12 @@ function MovieDetail() {
                 item={movie}
                 showWatchlist={true}
                 showFavorite={true}
+                isLoading={recomendationisLoading}
               />
             );
           })}
         </div>
+        <ErrorNotification message={recomendationisError} />
       </section>
     </section>
   );

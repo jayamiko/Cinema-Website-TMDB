@@ -3,7 +3,7 @@ import api from "..";
 const lang = "en-US";
 const page = "1";
 
-export const getNowPlayingMovies = async (setData, setIsLoading) => {
+export const getNowPlayingMovies = async (setData, setIsLoading, setError) => {
   setIsLoading(true);
   try {
     const response = await api.get(
@@ -12,13 +12,13 @@ export const getNowPlayingMovies = async (setData, setIsLoading) => {
     setData(response.data.results);
   } catch (error) {
     console.error("error:", error);
-    throw error;
+    setError(error);
   } finally {
     setIsLoading(false);
   }
 };
 
-export const getTopRatedMovies = async (setData, setIsLoading) => {
+export const getTopRatedMovies = async (setData, setIsLoading, setError) => {
   setIsLoading(true);
   try {
     const response = await api.get(
@@ -27,26 +27,36 @@ export const getTopRatedMovies = async (setData, setIsLoading) => {
     setData(response.data.results);
   } catch (error) {
     console.error("error:", error);
-    throw error;
+    setError(error);
   } finally {
     setIsLoading(false);
   }
 };
 
-export const getMovieDetail = async (movieId, setData, setIsLoading) => {
+export const getMovieDetail = async (
+  movieId,
+  setData,
+  setIsLoading,
+  setError
+) => {
   setIsLoading(true);
   try {
     const response = await api.get(`/movie/${movieId}`);
     setData(response.data);
   } catch (error) {
     console.error("error:", error);
-    throw error;
+    setError(error);
   } finally {
     setIsLoading(false);
   }
 };
 
-export const getSearchMovies = async (query, setData, setIsLoading) => {
+export const getSearchMovies = async (
+  query,
+  setData,
+  setIsLoading,
+  setError
+) => {
   setIsLoading(true);
   try {
     const response = await api.get(
@@ -55,7 +65,7 @@ export const getSearchMovies = async (query, setData, setIsLoading) => {
     setData(response.data.results);
   } catch (error) {
     console.error("error:", error);
-    throw error;
+    setError(error);
   } finally {
     setIsLoading(false);
   }
@@ -64,7 +74,8 @@ export const getSearchMovies = async (query, setData, setIsLoading) => {
 export const getRecomendationMovies = async (
   movieId,
   setData,
-  setIsLoading
+  setIsLoading,
+  setError
 ) => {
   setIsLoading(true);
   try {
@@ -74,21 +85,30 @@ export const getRecomendationMovies = async (
     setData(response.data.results);
   } catch (error) {
     console.error("error:", error);
-    throw error;
+    setError(error);
   } finally {
     setIsLoading(false);
   }
 };
 
-export const addRateMovie = async (sessionId, movieId, value, setIsLoading) => {
+export const addRateMovie = async (
+  sessionId,
+  movieId,
+  value,
+  setIsLoading,
+  setError
+) => {
   setIsLoading(true);
+
+  const rate = value * 2;
+
   try {
     await api.post(`/movie/${movieId}/rating?session_id=${sessionId}`, {
-      value,
+      value: rate,
     });
   } catch (error) {
     console.error("error:", error);
-    throw error;
+    setError(error);
   } finally {
     setIsLoading(false);
   }

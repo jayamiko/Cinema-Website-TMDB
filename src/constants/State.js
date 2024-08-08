@@ -1,4 +1,4 @@
-export const STATE = {
+export const Action = {
   LOGIN: "LOGIN",
   LOGOUT: "LOGOUT",
 };

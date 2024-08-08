@@ -11,7 +11,13 @@ import {
 } from "../../utils/localStorage.";
 import isItemInList from "../../utils/isItemInList";
 
-function MovieCard({ item, showWatchlist, showFavorite }) {
+function MovieCard({
+  item,
+  showWatchlist,
+  showFavorite,
+  isLoading,
+  setIsLoading,
+}) {
   const movieId = item.id;
 
   const [watchlist, setWatchlist] = useState([]);
@@ -32,48 +38,58 @@ function MovieCard({ item, showWatchlist, showFavorite }) {
   }, [movieId, watchlist, favorites]);
 
   return (
-    <div className="inline-block w-fit max-w-48 bg-slate-900 rounded-xl overflow-hidden m-2">
-      <div className="relative flex items-end justify-end">
-        <div className="absolute h-fit w-fit space-x-2 m-3">
-          {showWatchlist && (
-            <Button
-              onClick={() => saveToLocalStorage("watchlist", item, movieId)}
-            >
-              <WatchlistIcon
-                fill={isWatchlist}
-                setFill={setIsWatchlist}
-                size={22}
+    <div className="inline-block w-fit max-w-48 min-h-72 bg-slate-900 rounded-xl overflow-hidden m-2">
+      {!isLoading ? (
+        <>
+          <div className="relative flex items-end justify-end">
+            <div className="absolute h-fit w-fit space-x-2 m-3">
+              {showWatchlist && (
+                <Button
+                  onClick={() => saveToLocalStorage("watchlist", item, movieId)}
+                >
+                  <WatchlistIcon
+                    fill={isWatchlist}
+                    setFill={setIsWatchlist}
+                    size={22}
+                  />
+                </Button>
+              )}
+              {showFavorite && (
+                <Button
+                  onClick={() => saveToLocalStorage("favorites", item, movieId)}
+                >
+                  <HeartIcon
+                    fill={isFavorite}
+                    setFill={setIsFavorite}
+                    size={22}
+                  />
+                </Button>
+              )}
+            </div>
+            <Link to={`/cinema/${movieId}`}>
+              <Image
+                src={IMAGE_URL + item?.poster_path}
+                width={200}
+                height={200}
+                alt={item?.title}
               />
-            </Button>
-          )}
-          {showFavorite && (
-            <Button
-              onClick={() => saveToLocalStorage("favorites", item, movieId)}
-            >
-              <HeartIcon fill={isFavorite} setFill={setIsFavorite} size={22} />
-            </Button>
-          )}
-        </div>
-        <Link to={`/cinema/${movieId}`}>
-          <Image
-            src={IMAGE_URL + item?.poster_path}
-            width={200}
-            height={200}
-            alt={item?.title}
-          />
-        </Link>
-      </div>
-      <Link to={`/cinema/${movieId}`}>
-        <div className="p-3">
-          <h4 className="font-extrabold line-clamp-1 text-wrap hover:text-orange-500 hover:underline">
-            {item?.title}
-          </h4>
+            </Link>
+          </div>
+          <Link to={`/cinema/${movieId}`}>
+            <div className="p-3">
+              <h4 className="font-extrabold line-clamp-1 text-wrap hover:text-orange-500 hover:underline">
+                {item?.title}
+              </h4>
 
-          <span className="text-sm font-extralight">
-            {item?.release_date.substring(0, 4)}
-          </span>
-        </div>
-      </Link>
+              <span className="text-sm font-extralight">
+                {item?.release_date.substring(0, 4)}
+              </span>
+            </div>
+          </Link>
+        </>
+      ) : (
+        <Skeleton styles="w-48 min-h-80" />
+      )}
     </div>
   );
 }

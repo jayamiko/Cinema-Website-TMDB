@@ -3,7 +3,7 @@ import Home from "./pages/Home";
 import Watchlist from "./pages/Watchlist";
 import Favorite from "./pages/Favorite";
 import Layout from "./components/Layout/Layout";
-import Paths from "./constants/Page";
+import Path from "./constants/Page";
 import MovieDetail from "./pages/MovieDetail";
 
 function App() {

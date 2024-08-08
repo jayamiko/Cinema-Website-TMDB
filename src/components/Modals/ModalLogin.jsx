@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import api from "../../api";
 import Image from "../Images/Image";
 import Button from "../Buttons/Button";
 import getRequestToken from "../../api/requestToken/requestToken";
-import { STATE } from "../../constants/State";
+import { Action } from "../../constants/State";
+import ModalContainer from "../../containers/ModalContainer";
+import ErrorNotification from "../Notifications/ErrorNotification";
 
 function ModalLogin({ showModal, setShowModal, dispatch }) {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+
   const handleLogin = async () => {
+    setIsLoading(true);
+
     const username = process.env.REACT_APP_TMDB_USERNAME;
     const password = process.env.REACT_APP_TMDB_PASSWORD;
 
@@ -26,39 +33,41 @@ function ModalLogin({ showModal, setShowModal, dispatch }) {
         request
       );
 
-      dispatch({ type: STATE.LOGIN, payload: sessionResponse.data });
+      dispatch({ type: Action.LOGIN, payload: sessionResponse.data });
       setShowModal(false);
     } catch (error) {
       console.error("Login failed", error);
+      setError(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <>
-      {showModal && (
-        <>
-          <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-            <div className="relative w-auto my-6 mx-auto max-w-3xl">
-              <div className="border-2 w-40 h-40 rounded-2xl shadow-lg relative flex flex-col items-center justify-center bg-white outline-none focus:outline-none">
-                <Image
-                  src="/tmdb-logo.png"
-                  width={100}
-                  height={100}
-                  alt="TMDB Logo"
-                />
-                <Button
-                  styles="text-black hover:underline mt-2 text-x"
-                  onClick={handleLogin}
-                >
-                  Login with TMDB
-                </Button>
-              </div>
-            </div>
-          </div>
-          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
-        </>
-      )}
-    </>
+    <ModalContainer showModal={showModal}>
+      <div
+        className={`${
+          isLoading ? "cursor-wait" : ""
+        } w-40 h-40 rounded-2xl shadow-lg relative flex flex-col items-center justify-center bg-white outline-none focus:outline-none`}
+      >
+        <Image
+          src="/tmdb-logo.png"
+          width={100}
+          height={100}
+          alt="TMDB Logo"
+          className={isLoading ? "animate-pulse" : ""}
+        />
+        <Button
+          styles="text-black hover:underline mt-2 text-x"
+          onClick={handleLogin}
+        >
+          Login with TMDB
+        </Button>
+
+        {/* If error response */}
+        <ErrorNotification message={error} textColor="#000" />
+      </div>
+    </ModalContainer>
   );
 }
 
