@@ -3,8 +3,9 @@ import api from "../../api";
 import Image from "../Images/Image";
 import Button from "../Buttons/Button";
 import getRequestToken from "../../api/requestToken/requestToken";
+import { STATE } from "../../constants/State";
 
-function ModalLogin({ showModal, setShowModal, setSessionId }) {
+function ModalLogin({ showModal, setShowModal, dispatch }) {
   const handleLogin = async () => {
     const username = process.env.REACT_APP_TMDB_USERNAME;
     const password = process.env.REACT_APP_TMDB_PASSWORD;
@@ -25,9 +26,7 @@ function ModalLogin({ showModal, setShowModal, setSessionId }) {
         request
       );
 
-      const sessionId = sessionResponse.data.session_id;
-      setSessionId(sessionId);
-      localStorage.setItem("session_id", sessionId);
+      dispatch({ type: STATE.LOGIN, payload: sessionResponse.data });
       setShowModal(false);
     } catch (error) {
       console.error("Login failed", error);

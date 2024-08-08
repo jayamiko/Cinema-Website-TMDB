@@ -11,6 +11,7 @@ import getLocalStorageValue from "../helpers/getLocalStorageValue";
 import Button from "../components/Buttons/Button";
 import Typography from "../components/Typography/Typography";
 import MovieCard from "../components/Cards/MovieCard";
+import { saveToLocalStorage } from "../utils/localStorage.";
 
 function CinemaDetail() {
   const { id } = useParams();
@@ -31,7 +32,6 @@ function CinemaDetail() {
   }, [movieId]);
 
   const releaseDate = data?.release_date;
-
   const genreNames = data?.genres?.map((genre) => genre?.name).join(", ");
 
   useEffect(() => {
@@ -49,22 +49,6 @@ function CinemaDetail() {
     setIsWatchlist(isItemInList(watchlist));
     setIsFavorite(isItemInList(favorites));
   }, [movieId, watchlist, favorites]);
-
-  function saveToLocalStorage(key, value) {
-    let item = getLocalStorageValue(key);
-
-    item = item ? JSON.parse(item) : [];
-
-    const itemIndex = item.findIndex((list) => list.id === movieId);
-
-    if (itemIndex !== -1) {
-      item.splice(itemIndex, 1);
-    } else {
-      item.push(value);
-    }
-
-    localStorage.setItem(key, JSON.stringify(item));
-  }
 
   return (
     <section className="min-h-screen">
@@ -92,14 +76,18 @@ function CinemaDetail() {
             <div className="flex items-center space-x-4 py-2">
               <ScoreProgress score={data?.vote_average * 10} />
               <span className="text-xs w-10">User Score</span>
-              <Button onClick={() => saveToLocalStorage("watchlist", data)}>
+              <Button
+                onClick={() => saveToLocalStorage("watchlist", data, movieId)}
+              >
                 <WatchlistIcon
                   fill={isWatchlist}
                   setFill={setIsWatchlist}
                   size={22}
                 />
               </Button>
-              <Button onClick={() => saveToLocalStorage("favorites", data)}>
+              <Button
+                onClick={() => saveToLocalStorage("favorites", data, movieId)}
+              >
                 <HeartIcon
                   fill={isFavorite}
                   setFill={setIsFavorite}

@@ -1,28 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ModalLogin from "../components/Modals/ModalLogin";
 import Typography from "../components/Typography/Typography";
 import MovieCard from "../components/Cards/MovieCard";
 import getLocalStorageValue from "../helpers/getLocalStorageValue";
+import { AuthContext } from "../context/AuthContextProvider";
 
 function Favorite() {
   const navigate = useNavigate();
 
   const session = getLocalStorageValue("session_id");
-  const favorites = JSON.parse(getLocalStorageValue("favorites"));
-
-  const [sessionId, setSessionId] = useState("");
   const [showModal, setShowModal] = useState(false);
 
+  const favorites = JSON.parse(getLocalStorageValue("favorites"));
+
+  const { stateAuth, dispatch } = useContext(AuthContext);
+
+  const isLogin = stateAuth.session_id;
+
   useEffect(() => {
-    if (!session) {
+    if (!isLogin) {
       setShowModal(true);
     }
-  }, [navigate, session]);
+  }, [isLogin]);
 
   return (
     <section>
-      {session && (
+      {isLogin && (
         <div className="container mx-auto my-10">
           <Typography>Your Favorite Movie</Typography>
           <div className="flex flex-wrap py-5">
@@ -35,7 +39,7 @@ function Favorite() {
       <ModalLogin
         showModal={showModal}
         setShowModal={setShowModal}
-        setSessionId={setSessionId}
+        dispatch={dispatch}
       />
     </section>
   );

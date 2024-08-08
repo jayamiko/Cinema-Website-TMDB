@@ -1,20 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import Paths from "../../constants/Page";
 import Image from "../Images/Image";
 import Button from "../Buttons/Button";
 import api, { API_KEY } from "../../api";
-import getLocalStorageValue from "../../helpers/getLocalStorageValue";
+import { STATE } from "../../constants/State";
+import { AuthContext } from "../../context/AuthContextProvider";
 
 function Navbar() {
-  const [sessionId, setSessionId] = useState("");
+  const { stateAuth, dispatch } = useContext(AuthContext);
 
-  const keySessionId = "session_id";
-
-  const session = getLocalStorageValue(keySessionId);
-  useEffect(() => {
-    setSessionId(session);
-  }, [session]);
+  const sessionId = stateAuth.session_id;
 
   const handleLogout = async () => {
     try {
@@ -24,8 +20,7 @@ function Navbar() {
           session_id: sessionId,
         },
       });
-      localStorage.removeItem("session_id");
-      setSessionId(null);
+      dispatch({ type: STATE.LOGOUT });
     } catch (error) {
       console.error("Logout failed", error);
     }

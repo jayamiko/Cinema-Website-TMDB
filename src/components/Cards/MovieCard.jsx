@@ -6,6 +6,7 @@ import { IMAGE_URL } from "../../api";
 import Button from "../Buttons/Button";
 import getLocalStorageValue from "../../helpers/getLocalStorageValue";
 import { Link } from "react-router-dom";
+import { saveToLocalStorage } from "../../utils/localStorage.";
 
 function MovieCard({ item, showWatchlist, showFavorite }) {
   const movieId = item.id;
@@ -31,28 +32,14 @@ function MovieCard({ item, showWatchlist, showFavorite }) {
     setIsFavorite(isItemInList(favorites));
   }, [movieId, watchlist, favorites]);
 
-  function saveToLocalStorage(key, value) {
-    let data = getLocalStorageValue(key);
-
-    data = data ? JSON.parse(data) : [];
-
-    const itemIndex = data.findIndex((list) => list.id === movieId);
-
-    if (itemIndex !== -1) {
-      data.splice(itemIndex, 1);
-    } else {
-      data.push(value);
-    }
-
-    localStorage.setItem(key, JSON.stringify(data));
-  }
-
   return (
     <div className="inline-block w-fit max-w-48 bg-slate-900 rounded-xl overflow-hidden m-2">
       <div className="relative flex items-end justify-end">
         <div className="absolute h-fit w-fit space-x-2 m-3">
           {showWatchlist && (
-            <Button onClick={() => saveToLocalStorage("watchlist", item)}>
+            <Button
+              onClick={() => saveToLocalStorage("watchlist", item, movieId)}
+            >
               <WatchlistIcon
                 fill={isWatchlist}
                 setFill={setIsWatchlist}
@@ -61,7 +48,9 @@ function MovieCard({ item, showWatchlist, showFavorite }) {
             </Button>
           )}
           {showFavorite && (
-            <Button onClick={() => saveToLocalStorage("favorites", item)}>
+            <Button
+              onClick={() => saveToLocalStorage("favorites", item, movieId)}
+            >
               <HeartIcon fill={isFavorite} setFill={setIsFavorite} size={22} />
             </Button>
           )}

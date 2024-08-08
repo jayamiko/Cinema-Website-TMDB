@@ -1,28 +1,28 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
 import ModalLogin from "../components/Modals/ModalLogin";
 import Typography from "../components/Typography/Typography";
 import MovieCard from "../components/Cards/MovieCard";
 import getLocalStorageValue from "../helpers/getLocalStorageValue";
+import { AuthContext } from "../context/AuthContextProvider";
 
 function Watchlist() {
-  const navigate = useNavigate();
-
-  const session = getLocalStorageValue("session_id");
-  const watchlist = JSON.parse(getLocalStorageValue("watchlist"));
-
-  const [sessionId, setSessionId] = useState("");
   const [showModal, setShowModal] = useState(false);
 
+  const watchlist = JSON.parse(getLocalStorageValue("watchlist"));
+
+  const { stateAuth, dispatch } = useContext(AuthContext);
+
+  const isLogin = stateAuth.isLogin;
+
   useEffect(() => {
-    if (!session) {
+    if (!isLogin) {
       setShowModal(true);
     }
-  }, [navigate, session]);
+  }, [isLogin]);
 
   return (
     <section>
-      {session && (
+      {isLogin && (
         <div className="container mx-auto my-10">
           <Typography>Your Watchlist</Typography>
           <div className="flex flex-wrap py-5">
@@ -37,7 +37,7 @@ function Watchlist() {
       <ModalLogin
         showModal={showModal}
         setShowModal={setShowModal}
-        setSessionId={setSessionId}
+        dispatch={dispatch}
       />
     </section>
   );
