@@ -12,17 +12,17 @@ function Favorite() {
 
   const { stateAuth, dispatch } = useContext(AuthContext);
 
-  const isLogin = stateAuth.session_id;
+  const sessionId = getLocalStorageValue("session_id");
 
   useEffect(() => {
-    if (!isLogin) {
+    if (!sessionId) {
       setShowModal(true);
     }
-  }, [isLogin]);
+  }, [sessionId]);
 
   return (
     <section>
-      {isLogin && (
+      {sessionId && (
         <div className="container mx-auto my-10">
           <Typography>Your Favorite Movie</Typography>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 py-5">
