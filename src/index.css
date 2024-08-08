@@ -2,9 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --color-black: hwb(0 0% 100%);
+  --color-white: #fff;
+}
+
 body {
-  background: #000;
-  color: #fff;
+  background: var(--color-black);
+  color: var(--color-white);
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",

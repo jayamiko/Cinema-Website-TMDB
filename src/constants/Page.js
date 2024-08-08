@@ -1,7 +1,7 @@
-const Paths = {
+const Path = {
   HOME: "/",
   WATCHLIST: "/watchlist",
   FAVORITE: "/favorite",
 };
 
-export default Paths;
+export default Path;
