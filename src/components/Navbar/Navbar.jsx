@@ -28,8 +28,8 @@ function Navbar() {
 
   return (
     <nav className="bg-primary w-full h-28 flex items-center sticky top-0 z-50">
-      <div className="container mx-auto flex justify-between items-center">
-        <h2 className="uppercase xl:text-5xl tracking-widest">
+      <div className="container mx-auto flex justify-between items-center px-5">
+        <h2 className="uppercase font-extrabold tracking-widest xl:text-5xl">
           <Link to={Paths.HOME}>Cinema</Link>
         </h2>
 

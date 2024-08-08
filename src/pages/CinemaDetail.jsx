@@ -53,7 +53,7 @@ function CinemaDetail() {
   return (
     <section className="min-h-screen">
       <section className="relative flex justify-center">
-        <div className="absolute z-10 container mx-auto h-full flex items-center space-x-8">
+        <div className="absolute z-10 container mx-auto h-full flex items-center px-5 space-x-8">
           <Image
             src={IMAGE_URL + data?.poster_path}
             width={250}
@@ -61,16 +61,23 @@ function CinemaDetail() {
             alt={data?.title}
             className="rounded-xl"
           />
+
           <div className="space-y-2">
-            <h1 className="text-4xl">
+            <h1 className="text-2xl md:text-3xl xl:text-4xl">
               <b>{data?.title}</b>
               <span>({releaseDate?.substring(0, 4)})</span>
             </h1>
 
-            <div className="flex space-x-4">
-              <span>{releaseDate}</span>
-              <span>{genreNames}</span>
-              <span>{formatRuntime(data?.runtime)}</span>
+            <div className="flex space-x-2 sm:space-x-4">
+              <span className="text-xs sm:text-sm xl:text-base">
+                {releaseDate}
+              </span>
+              <span className="text-xs sm:text-sm xl:text-base">
+                {genreNames}
+              </span>
+              <span className="text-xs sm:text-sm xl:text-base">
+                {formatRuntime(data?.runtime)}
+              </span>
             </div>
 
             <div className="flex items-center space-x-4 py-2">
@@ -96,9 +103,13 @@ function CinemaDetail() {
               </Button>
             </div>
 
-            <i>{data?.tagline}</i>
-            <h6 className="font-bold capitalize">Overview</h6>
-            <p className="w-full lg:w-3/4">{data?.overview}</p>
+            <i className="text-xs lg:text-sm xl:text-base">{data?.tagline}</i>
+            <h6 className="font-bold capitalize text-sm xl:text-base">
+              Overview
+            </h6>
+            <p className="w-full text-xs lg:text-sm xl:text-base lg:w-3/4">
+              {data?.overview}
+            </p>
           </div>
         </div>
         <div
