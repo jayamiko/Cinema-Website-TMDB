@@ -11,7 +11,7 @@ export const getNowPlayingMovies = async (setData, setIsLoading) => {
     );
     setData(response.data.results);
   } catch (error) {
-    console.error("Error fetching data:", error);
+    console.error("error:", error);
     throw error;
   } finally {
     setIsLoading(false);
@@ -26,7 +26,7 @@ export const getTopRatedMovies = async (setData, setIsLoading) => {
     );
     setData(response.data.results);
   } catch (error) {
-    console.error("Error fetching data:", error);
+    console.error("error:", error);
     throw error;
   } finally {
     setIsLoading(false);
@@ -39,7 +39,22 @@ export const getMovieDetail = async (movieId, setData, setIsLoading) => {
     const response = await api.get(`/movie/${movieId}`);
     setData(response.data);
   } catch (error) {
-    console.error("Error fetching data:", error);
+    console.error("error:", error);
+    throw error;
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+export const getSearchMovies = async (query, setData, setIsLoading) => {
+  setIsLoading(true);
+  try {
+    const response = await api.get(
+      `/search/movie?query=${query}&include_adult=false&language=${lang}&page=${page}`
+    );
+    setData(response.data.results);
+  } catch (error) {
+    console.error("error:", error);
     throw error;
   } finally {
     setIsLoading(false);
@@ -58,7 +73,21 @@ export const getRecomendationMovies = async (
     );
     setData(response.data.results);
   } catch (error) {
-    console.error("Error fetching data:", error);
+    console.error("error:", error);
+    throw error;
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+export const addRateMovie = async (sessionId, movieId, value, setIsLoading) => {
+  setIsLoading(true);
+  try {
+    await api.post(`/movie/${movieId}/rating?session_id=${sessionId}`, {
+      value,
+    });
+  } catch (error) {
+    console.error("error:", error);
     throw error;
   } finally {
     setIsLoading(false);
