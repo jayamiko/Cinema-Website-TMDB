@@ -4,9 +4,12 @@ import WatchlistIcon from "../Icons/WatchlistIcon";
 import HeartIcon from "../Icons/HeartIcon";
 import { IMAGE_URL } from "../../api";
 import Button from "../Buttons/Button";
-import getLocalStorageValue from "../../helpers/getLocalStorageValue";
 import { Link } from "react-router-dom";
-import { saveToLocalStorage } from "../../utils/localStorage.";
+import {
+  getLocalStorageValue,
+  saveToLocalStorage,
+} from "../../utils/localStorage.";
+import isItemInList from "../../utils/isItemInList";
 
 function MovieCard({ item, showWatchlist, showFavorite }) {
   const movieId = item.id;
@@ -24,12 +27,8 @@ function MovieCard({ item, showWatchlist, showFavorite }) {
   }, []);
 
   useEffect(() => {
-    function isItemInList(data) {
-      return data?.map((list) => list.id).includes(movieId);
-    }
-
-    setIsWatchlist(isItemInList(watchlist));
-    setIsFavorite(isItemInList(favorites));
+    setIsWatchlist(isItemInList(watchlist, movieId));
+    setIsFavorite(isItemInList(favorites, movieId));
   }, [movieId, watchlist, favorites]);
 
   return (

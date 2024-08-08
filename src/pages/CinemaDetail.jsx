@@ -3,15 +3,18 @@ import { useParams } from "react-router-dom";
 import { getMovieDetail, getRecomendationMovies } from "../api/movie/movieApi";
 import { IMAGE_URL } from "../api";
 import Image from "../components/Images/Image";
-import formatRuntime from "../helpers/formatRuntime";
+import formatRuntime from "../utils/formatRuntime";
 import ScoreProgress from "../components/Progress/ScoreProgress";
 import HeartIcon from "../components/Icons/HeartIcon";
 import WatchlistIcon from "../components/Icons/WatchlistIcon";
-import getLocalStorageValue from "../helpers/getLocalStorageValue";
 import Button from "../components/Buttons/Button";
 import Typography from "../components/Typography/Typography";
 import MovieCard from "../components/Cards/MovieCard";
-import { saveToLocalStorage } from "../utils/localStorage.";
+import {
+  getLocalStorageValue,
+  saveToLocalStorage,
+} from "../utils/localStorage.";
+import isItemInList from "../utils/isItemInList";
 
 function CinemaDetail() {
   const { id } = useParams();
@@ -42,12 +45,8 @@ function CinemaDetail() {
   }, []);
 
   useEffect(() => {
-    function isItemInList(data) {
-      return data?.map((list) => list.id).includes(movieId);
-    }
-
-    setIsWatchlist(isItemInList(watchlist));
-    setIsFavorite(isItemInList(favorites));
+    setIsWatchlist(isItemInList(watchlist, movieId));
+    setIsFavorite(isItemInList(favorites, movieId));
   }, [movieId, watchlist, favorites]);
 
   return (

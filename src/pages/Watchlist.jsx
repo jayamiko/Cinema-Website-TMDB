@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import ModalLogin from "../components/Modals/ModalLogin";
 import Typography from "../components/Typography/Typography";
 import MovieCard from "../components/Cards/MovieCard";
-import getLocalStorageValue from "../helpers/getLocalStorageValue";
 import { AuthContext } from "../context/AuthContextProvider";
+import { getLocalStorageValue } from "../utils/localStorage.";
 
 function Watchlist() {
   const [showModal, setShowModal] = useState(false);

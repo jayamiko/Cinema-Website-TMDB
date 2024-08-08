@@ -1,15 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import ModalLogin from "../components/Modals/ModalLogin";
 import Typography from "../components/Typography/Typography";
 import MovieCard from "../components/Cards/MovieCard";
-import getLocalStorageValue from "../helpers/getLocalStorageValue";
 import { AuthContext } from "../context/AuthContextProvider";
+import { getLocalStorageValue } from "../utils/localStorage.";
 
 function Favorite() {
-  const navigate = useNavigate();
-
-  const session = getLocalStorageValue("session_id");
   const [showModal, setShowModal] = useState(false);
 
   const favorites = JSON.parse(getLocalStorageValue("favorites"));
