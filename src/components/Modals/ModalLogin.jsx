@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import api from "../../api";
 import Image from "../Images/Image";
 import Button from "../Buttons/Button";
@@ -6,10 +6,13 @@ import getRequestToken from "../../api/requestToken/requestToken";
 import { Action } from "../../constants/State";
 import ModalContainer from "../../containers/ModalContainer";
 import ErrorNotification from "../Notifications/ErrorNotification";
+import { AuthContext } from "../../context/AuthContextProvider";
 
-function ModalLogin({ showModal, setShowModal, dispatch }) {
+function ModalLogin({ showModal, setShowModal }) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const { dispatch } = useContext(AuthContext);
 
   const handleLogin = async () => {
     setIsLoading(true);
