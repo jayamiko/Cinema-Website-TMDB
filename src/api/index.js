@@ -1,5 +1,6 @@
 import axios from "axios";
 
+export const ACCOUNT_ID = process.env.REACT_APP_ACCOUNT_ID;
 export const API_KEY = process.env.REACT_APP_API_KEY;
 export const IMAGE_URL = process.env.REACT_APP_IMAGE_URL;
 

@@ -1,4 +1,4 @@
-import api from "..";
+import api, { ACCOUNT_ID } from "..";
 
 const lang = "en-US";
 const page = "1";
@@ -51,26 +51,6 @@ export const getMovieDetail = async (
   }
 };
 
-export const getSearchMovies = async (
-  query,
-  setData,
-  setIsLoading,
-  setError
-) => {
-  setIsLoading(true);
-  try {
-    const response = await api.get(
-      `/search/movie?query=${query}&include_adult=false&language=${lang}&page=${page}`
-    );
-    setData(response.data.results);
-  } catch (error) {
-    console.error("error:", error);
-    setError(error);
-  } finally {
-    setIsLoading(false);
-  }
-};
-
 export const getRecomendationMovies = async (
   movieId,
   setData,
@@ -86,6 +66,22 @@ export const getRecomendationMovies = async (
   } catch (error) {
     console.error("error:", error);
     setError(error);
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+export const getRatedMovies = async (sessionId, setData, setIsLoading) => {
+  setIsLoading(true);
+  const sortBy = "asc";
+
+  try {
+    const response = await api.get(
+      `/account/${ACCOUNT_ID}/rated/movies?language=${lang}&page=${page}&session_id=${sessionId}&sort_by=created_at.${sortBy}'`
+    );
+    setData(response.data.results);
+  } catch (error) {
+    console.error("error:", error);
   } finally {
     setIsLoading(false);
   }
