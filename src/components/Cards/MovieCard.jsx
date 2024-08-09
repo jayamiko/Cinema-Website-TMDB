@@ -12,10 +12,9 @@ import Skeleton from "../Skeleton/Skeleton";
 
 function MovieCard({
   item,
-  showWatchlist,
-  showFavorite,
+  showWatchlist = true,
+  showFavorite = true,
   isLoading,
-  setIsLoading,
 }) {
   const movieId = item.id;
 

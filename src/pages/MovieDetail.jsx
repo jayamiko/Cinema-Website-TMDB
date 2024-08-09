@@ -12,13 +12,11 @@ import ScoreProgress from "../components/Progress/ScoreProgress";
 import HeartIcon from "../components/Icons/HeartIcon";
 import WatchlistIcon from "../components/Icons/WatchlistIcon";
 import Button from "../components/Buttons/Button";
-import Typography from "../components/Typography/Typography";
-import MovieCard from "../components/Cards/MovieCard";
 import { saveToLocalStorage, useLocalStorage } from "../utils/localStorage.";
 import isItemInList from "../utils/isItemInList";
 import useMovieData from "../hooks/useMovieData";
 import ModalRating from "../components/Modals/ModalRating";
-import ErrorNotification from "../components/Notifications/ErrorNotification";
+import MovieScrollContainer from "../containers/MovieScrollContainer";
 
 function MovieDetail() {
   const { id } = useParams();
@@ -44,7 +42,7 @@ function MovieDetail() {
 
   useEffect(() => {
     getRatedMovies(sessionId, setRatedMovie, setRatedMovieIsLoading);
-  }, []);
+  }, [sessionId]);
 
   useEffect(() => {
     getMovieDetail(movieId, setMovieDetail, setIsLoading);
@@ -165,23 +163,12 @@ function MovieDetail() {
       )}
 
       {/* Movie Recomendations */}
-      <section className="container mx-auto my-10">
-        <Typography>Recomendations</Typography>
-        <div className="overflow-x-auto whitespace-nowrap py-5">
-          {recomendations?.map((movie, index) => {
-            return (
-              <MovieCard
-                key={index}
-                item={movie}
-                showWatchlist={true}
-                showFavorite={true}
-                isLoading={recomendationisLoading}
-              />
-            );
-          })}
-        </div>
-        <ErrorNotification message={recomendationisError} />
-      </section>
+      <MovieScrollContainer
+        title="Recomendations"
+        movies={recomendations}
+        isLoading={recomendationisLoading}
+        isError={recomendationisError}
+      />
     </section>
   );
 }

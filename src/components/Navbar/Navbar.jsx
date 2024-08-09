@@ -16,7 +16,6 @@ function Navbar() {
   const { sessionId } = useLocalStorage();
 
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
 
   const handleLogout = async () => {
     setIsLoading(true);
@@ -32,7 +31,6 @@ function Navbar() {
       navigate(Path.HOME);
     } catch (error) {
       console.error("Logout failed", error);
-      setError(error);
     } finally {
       setIsLoading(false);
     }

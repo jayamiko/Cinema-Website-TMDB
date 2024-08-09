@@ -17,7 +17,7 @@ const useMovieData = () => {
     }, 120000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [watchlist, favorites]);
 
   return data;
 };
