@@ -22,7 +22,7 @@ function Favorite() {
   return (
     <section>
       {sessionId && (
-        <div className="container mx-auto my-10">
+        <div className="container mx-auto px-5 my-10">
           <MovieContainer
             title="Your Favorite Movie"
             movies={resultMovie}

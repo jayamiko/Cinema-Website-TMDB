@@ -25,7 +25,7 @@ function MovieContainer(props) {
       </div>
 
       {/* If empty data when search */}
-      <EmptyMovie data={props.movies} message="Movie not in search!" />
+      <EmptyMovie data={props.movies} message="Movie is empty!" />
       {/* If top rated error */}
       <ErrorNotification message={props.isError} />
     </section>

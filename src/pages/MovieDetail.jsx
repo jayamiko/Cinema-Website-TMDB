@@ -70,16 +70,16 @@ function MovieDetail() {
       {/* Movie Detail Information */}
       {!isLoading && (
         <section className="relative flex justify-center">
-          <div className="absolute z-10 container mx-auto h-full flex items-center px-5 space-x-8">
-            <Image
-              src={IMAGE_URL + movieDetail?.poster_path}
-              width={250}
-              height={250}
-              alt={movieDetail?.title}
-              className="rounded-xl"
-            />
+          <div className="absolute z-10 container mx-auto h-full flex flex-col lg:flex-row items-center p-5 lg:space-x-8">
+            <div className="w-32 md:w-40 lg:w-80 h-fit flex items-center mb-2 lg:mb-0">
+              <Image
+                src={IMAGE_URL + movieDetail?.poster_path}
+                alt={movieDetail?.title}
+                className="bg-cover rounded-xl"
+              />
+            </div>
 
-            <div className="space-y-2">
+            <div className="space-y-1 lg:space-y-2">
               <h1 className="text-2xl md:text-3xl xl:text-4xl">
                 <b>{movieDetail?.title}</b>
                 <span>({releaseDate?.substring(0, 4)})</span>
@@ -163,12 +163,14 @@ function MovieDetail() {
       )}
 
       {/* Movie Recomendations */}
-      <MovieScrollContainer
-        title="Recomendations"
-        movies={recomendations}
-        isLoading={recomendationisLoading}
-        isError={recomendationisError}
-      />
+      <section className="container mx-auto p-5">
+        <MovieScrollContainer
+          title="Recomendations"
+          movies={recomendations}
+          isLoading={recomendationisLoading}
+          isError={recomendationisError}
+        />
+      </section>
     </section>
   );
 }

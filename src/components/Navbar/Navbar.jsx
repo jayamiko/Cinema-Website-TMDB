@@ -43,7 +43,7 @@ function Navbar() {
           <Link to={Path.HOME}>Cinema</Link>
         </h2>
 
-        <ul className="flex items-center space-x-10">
+        <ul className="flex items-center space-x-2 md:space-x-5 lg:space-x-10">
           <li className="navbar-list">
             <Link to={Path.WATCHLIST}>Watchlist</Link>
           </li>
